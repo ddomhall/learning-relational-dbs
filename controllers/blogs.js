@@ -8,7 +8,14 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const blog = await Blog.create(req.body)
-  res.send(blog)
+  res.json(blog)
+})
+
+router.put('/:id', async (req, res) => {
+  const blog = await Blog.findByPk(req.params.id)
+  blog.likes = req.body.likes
+  await blog.save()
+  res.json(blog)
 })
 
 router.delete('/:id', async (req, res) => {
