@@ -3,7 +3,7 @@ CREATE TABLE blogs (
     author text,
     url text NOT NULL,
     title text NOT NULL,
-    likes numeric DEFAULT 0,
+    likes numeric DEFAULT 0
 );
 
 insert into blogs (url, title) values ('url1', 'Relational databases rule the world');
