@@ -6,15 +6,15 @@ router.get('/', async (req, res) => {
   res.json(blogs)
 })
 
-router.post('/', async (req, res) => {
-  const blog = await Blog.create(req.body)
+router.post('/', async (req, res, next) => {
+  const blog = await Blog.create(req.body).catch(e => next(e))
   res.json(blog)
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res, next) => {
   const blog = await Blog.findByPk(req.params.id)
   blog.likes = req.body.likes
-  await blog.save()
+  await blog.save().catch(e => next(e))
   res.json(blog)
 })
 
