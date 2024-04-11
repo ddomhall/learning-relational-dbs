@@ -5,13 +5,18 @@ const app = express()
 const { PORT } = require('./util/config')
 const { connectToDatabase } = require('./util/db')
 
-const notesRouter = require('./controllers/blogs')
+const blogsRouter = require('./controllers/blogs')
+const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
 
 app.use(express.json())
 
-app.use('/api/blogs', notesRouter)
+app.use('/api/blogs', blogsRouter)
+app.use('/api/users', usersRouter)
+app.use('/api/login', loginRouter)
 
 const errorHandler = (error, request, response, next) => {
+  console.log(error)
   const errors = ['SequelizeValidationError', 'SequelizeDatabaseError', 'TypeError']
   if (errors.includes(error.name)) {
     return response.status(400).send({ error: 'invalid request' })
