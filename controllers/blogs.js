@@ -24,10 +24,19 @@ router.put('/:id', async (req, res, next) => {
   res.json(blog)
 })
 
-router.delete('/:id', async (req, res) => {
-  const blog = await Blog.findByPk(req.params.id)
-  await blog.destroy()
-  res.status(201).send('blog deleted')
+router.delete('/:id', tokenExtractor, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.decodedToken.id)
+    const blog = await Blog.findByPk(req.params.id)
+    if (blog.userId === user.id) {
+      await blog.destroy()
+      res.status(201).send('blog deleted')
+    } else {
+      res.status(401).send('not authorized')
+    }
+  } catch(error) {
+    next(error)
+  }
 })
 
 module.exports = router
