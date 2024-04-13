@@ -15,7 +15,6 @@ Blog.init({
   },
   url: {
     type: DataTypes.TEXT,
-    allowNull: false
   },
   title: {
     type: DataTypes.TEXT,
