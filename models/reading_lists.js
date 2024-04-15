@@ -20,11 +20,16 @@ ReadingLists.init({
     allowNull: false,
     references: { model: 'blogs', key: 'id' },
   },
+  read: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false
+  }
 }, {
-  sequelize,
-  underscored: true,
-  timestamps: false,
-  modelName: 'reading_lists'
-})
+    sequelize,
+    underscored: true,
+    timestamps: false,
+    modelName: 'reading_lists'
+  })
 
 module.exports = ReadingLists

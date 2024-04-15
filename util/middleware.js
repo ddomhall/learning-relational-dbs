@@ -6,7 +6,6 @@ const tokenExtractor = (req, res, next) => {
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
     try {
       req.decodedToken = jwt.verify(authorization.substring(7), SECRET)
-      console.log(req.decodedToken)
     } catch{
       return res.status(401).json({ error: 'token invalid' })
     }
@@ -17,7 +16,6 @@ const tokenExtractor = (req, res, next) => {
 }
 
 const errorHandler = (error, request, response, next) => {
-  console.log(error)
   const errors = ['SequelizeValidationError', 'SequelizeDatabaseError', 'TypeError', 'SequelizeUniqueConstraintError']
   if (errors.includes(error.name)) {
     return response.status(400).send({ error: 'invalid request' })

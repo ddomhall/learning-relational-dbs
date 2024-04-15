@@ -18,15 +18,14 @@ module.exports = {
         allowNull: false,
         references: { model: 'blogs', key: 'id' },
       },
-    })
-    await queryInterface.addColumn('blogs', 'read', {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
+      read: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      }
     })
   },
   down: async ({ context: queryInterface }) => {
     await queryInterface.dropTable('reading_lists')
-    await queryInterface.dropTable('blogs')
   },
 }
