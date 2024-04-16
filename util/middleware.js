@@ -1,7 +1,8 @@
 const { SECRET } = require('./config')
 const jwt = require('jsonwebtoken')
+const {Sessions} = require('../models/index')
 
-const tokenExtractor = (req, res, next) => {
+const tokenExtractor = async (req, res, next) => {
   const authorization = req.get('authorization')
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
     try {
@@ -12,6 +13,17 @@ const tokenExtractor = (req, res, next) => {
   }  else {
     return res.status(401).json({ error: 'token missing' })
   }
+
+  const session = await Sessions.findOne({
+    where: {
+      user_id: req.decodedToken.id
+    }
+  })
+
+  if (!session) {
+    return res.status(401).json({ error: 'session expired' })
+  }
+
   next()
 }
 
